@@ -120,3 +120,16 @@ module "eks_addons" {
     module.nodegrp
   ]
 }
+module "db_secret" {
+  source             = "./secretmanager"
+  secret_name        = var.db_secret_name
+  secret_description = var.db_secret_description
+  secret_values      = var.db_secret_values
+}
+
+module "redis_secret" {
+  source             = "./secretmanager"
+  secret_name        = var.redis_secret_name
+  secret_description = var.redis_secret_description
+  secret_values      = var.redis_secret_values
+}

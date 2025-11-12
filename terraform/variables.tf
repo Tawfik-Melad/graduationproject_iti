@@ -65,3 +65,33 @@ variable "ecrtags" {
     Project     = "EKS-CI"
   }
 }
+variable "db_secret_name" {
+  description = "Name of the DB secret"
+  type        = string
+}
+
+variable "db_secret_description" {
+  description = "Description of DB secret"
+  type        = string
+}
+
+variable "db_secret_values" {
+  description = "DB credentials map"
+  type        = map(string)
+}
+
+
+variable "redis_secret_name" {
+  description = "Name of the Redis secret"
+  type        = string
+}
+
+variable "redis_secret_description" {
+  description = "Description of Redis secret"
+  type        = string
+}
+
+variable "redis_secret_values" {
+  description = "Redis connection map"
+  type        = map(string)
+}
