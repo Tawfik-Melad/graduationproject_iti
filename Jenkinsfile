@@ -11,6 +11,8 @@ pipeline {
   }
 
   stages {
+
+    // ----------- App build & push -----------
     stage('Build & Push Image with Kaniko') {
       when {
         changeset "nodeapp/**"
@@ -28,8 +30,7 @@ spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
-    command:
-    - cat
+    command: [ "cat" ]
     tty: true
     resources:
       requests:
@@ -37,7 +38,7 @@ spec:
         memory: "2Gi"
       limits:
         cpu: "1.5"
-        memory: "4Gi"
+        memory: "3Gi"
 """
         }
       }
@@ -51,6 +52,47 @@ spec:
               --destination $ECR_REPO:latest \
               --destination $ECR_REPO:${GIT_COMMIT::7} \
               --reproducible
+          '''
+        }
+      }
+    }
+
+    // ----------- Terraform deploy -----------
+    stage('Terraform Init & Apply') {
+      when {
+        changeset "terraform/**"
+      }
+      agent {
+        kubernetes {
+          yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    jenkins: terraform
+spec:
+  serviceAccountName: jenkins
+  containers:
+  - name: terraform
+    image: hashicorp/terraform:1.9
+    command: [ "cat" ]
+    tty: true
+    resources:
+      requests:
+        cpu: "0.5"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "1Gi"
+"""
+        }
+      }
+      steps {
+        container('terraform') {
+          sh '''
+            cd terraform
+            terraform init -input=false
+            terraform apply -auto-approve -input=false
           '''
         }
       }
