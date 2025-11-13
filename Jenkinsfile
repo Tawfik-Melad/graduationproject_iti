@@ -33,11 +33,11 @@ spec:
     tty: true
     resources:
       requests:
-        cpu: "500m"
-        memory: "512Mi"
-      limits:
         cpu: "1"
         memory: "1Gi"
+      limits:
+        cpu: "1.5"
+        memory: "2Gi"
 """
         }
       }
