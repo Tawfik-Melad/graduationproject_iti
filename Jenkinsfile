@@ -49,7 +49,6 @@ spec:
             /kaniko/executor \
               --context $WORKSPACE \
               --dockerfile $WORKSPACE/dockerfile \
-              --destination $ECR_REPO:latest \
               --destination $ECR_REPO:${GIT_COMMIT::7} \
               --reproducible
           '''
