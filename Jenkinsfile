@@ -39,7 +39,7 @@ spec:
           sh '''
             echo "Building and pushing image to ECR..."
             /kaniko/executor \
-              --context $WORKSPACE/nodeapp \
+              --context $WORKSPACE \
               --dockerfile $WORKSPACE/dockerfile \
               --destination $ECR_REPO:latest \
               --destination $ECR_REPO:${GIT_COMMIT::7} \
