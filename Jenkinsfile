@@ -34,10 +34,10 @@ spec:
     resources:
       requests:
         cpu: "1"
-        memory: "1Gi"
+        memory: "2Gi"
       limits:
         cpu: "1.5"
-        memory: "2Gi"
+        memory: "4Gi"
 """
         }
       }
