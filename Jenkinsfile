@@ -2,7 +2,7 @@ pipeline {
   agent none
 
   triggers {
-    githubPush()   // still listen for GitHub push events
+    githubPush()
   }
 
   environment {
@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage('Build & Push Image with Kaniko') {
       when {
-        changeset "nodeapp/**"   // 👈 only run when files inside nodeapp/ change
+        changeset "nodeapp/**"
       }
       agent {
         kubernetes {
@@ -31,6 +31,13 @@ spec:
     command:
     - cat
     tty: true
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "512Mi"
+      limits:
+        cpu: "1"
+        memory: "1Gi"
 """
         }
       }
